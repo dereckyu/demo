@@ -51,7 +51,7 @@ jobs:
       with:
         context: .
         push: true
-        platforms: linux/amd64
+        platforms: linux/arm64
         tags: registry.cn-shanghai.aliyuncs.com/${{ env.NAMESPACE }}/${{ env.APP_NAME }}:latest
         cache-from: type=gha
         cache-to: type=gha,mode=max
