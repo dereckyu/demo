@@ -48,7 +48,7 @@ jobs:
       uses: docker/build-push-action@v5
       with:
         context: .
-        push: false
-        tags: demo:latest
+        push: true
+        tags: registry.cn-shanghai.aliyuncs.com/${{ env.NAMESPACE }}/${{ env.APP_NAME }}:latest
         cache-from: type=gha
         cache-to: type=gha,mode=max
