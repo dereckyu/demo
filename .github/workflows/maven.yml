@@ -43,6 +43,7 @@ jobs:
         region-id: ${{ env.REGION }}
         access-key-id: ${{ secrets.ALIYUN_ACCESS_KEY }}
         access-key-secret: ${{ secrets.ALIYUN_ACCESS_SECRET }}
+        registry: ${{ env.REGISTRY }}
     
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
