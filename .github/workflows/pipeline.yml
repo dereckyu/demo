@@ -24,6 +24,7 @@ env:
   REGISTRY: ${{ vars.ACR_CITYARK_REGISTRY }}
   NAMESPACE: cityark
   APP_NAME: demo
+  IMAGE_PULL_SECRET: acr-auth
 
 
 jobs:
@@ -77,6 +78,14 @@ jobs:
     - name: View ACK
       run: |
         kubectl get ns
+
+    - name: Create ACR Auth Secret
+      run: |
+        kubectl create secret docker-registry ${{ env.IMAGE_PULL_SECRET }} \
+        --docker-server=https://${{ env.REGISTRY }} \ 
+        --docker-username=${{ secrets.ACR_CITYARK_USERNAME }} \
+        --docker-password=${{ secrets.ACR_CITYARK_PASSWORD }} \
+        --docker-email=nobody@cityark.com
 
     # - name: Configure CLI Credentials
     #   uses: aliyun/configure-aliyun-credentials-action@v1

@@ -13,6 +13,8 @@ spec:
       labels:
         app: ${APP_NAME}
     spec:
+      imagePullSecrets:
+      - name: ${IMAGE_PULL_SECRET}
       containers:
       - name: ${APP_NAME}
         image: ${REGISTRY}/${NAMESPACE}/${APP_NAME}:latest
