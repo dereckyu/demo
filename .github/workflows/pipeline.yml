@@ -17,7 +17,10 @@ on:
 env:
   REGION: cn-shanghai
   ACK_CLUSTER_ID: c0c6fd35f298c43e190d24bac3f7eed2a
-  ACK_KUBE_CONFIG: ${{ secrets.ACK_CITYARK_KUBE_CONFIG }}
+  ACK_SERVER: ${{ secrets.ACK_CITYARK_SERVER }}
+  ACK_CA: ${{ secrets.ACK_CITYARK_CA }}
+  ACK_CLIENT_CERTIFICATE: ${{ secrets.ACK_CITYARK_CLIENT_CERTIFICATE }}
+  ACK_CLIENT_KEY: ${{ secrets.ACK_CITYARK_CLIENT_KEY }}
   REGISTRY: ${{ vars.ACR_CITYARK_REGISTRY }}
   NAMESPACE: cityark
   APP_NAME: demo
@@ -69,7 +72,7 @@ jobs:
     - name: Set kubeconfig
       run: |
         mkdir -p ~/.kube
-        echo "${{ env.ACK_KUBE_CONFIG }}" > ~/.kube/config
+        envsubst < k8s/kubeconfig.yaml > ~/.kube/config
         cat ~/.kube/config
 
     - name: View ACK
