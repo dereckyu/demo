@@ -81,11 +81,8 @@ jobs:
 
     - name: Create ACR Auth Secret
       run: |
-        kubectl create secret docker-registry ${{ env.IMAGE_PULL_SECRET }} \
-        --docker-server=https://${{ env.REGISTRY }} \ 
-        --docker-username=${{ secrets.ACR_CITYARK_USERNAME }} \
-        --docker-password=${{ secrets.ACR_CITYARK_PASSWORD }} \
-        --docker-email=nobody@cityark.com
+        DOCKER_CONFIG_JSON=$(echo -n "{\"auths\":{\"${{ env.REGISTRY }}\":{\"username\":\"${{ secrets.ACR_CITYARK_USERNAME }}\",\"password\":\"${{ secrets.ACR_CITYARK_PASSWORD }}\"}}}" | base64 -w 0)
+        envsubst < k8s/acr-secret.yaml | kubectl apply -f -
 
     # - name: Configure CLI Credentials
     #   uses: aliyun/configure-aliyun-credentials-action@v1
