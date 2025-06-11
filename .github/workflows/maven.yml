@@ -37,8 +37,11 @@ jobs:
       run: mvn -B package --file pom.xml
     
     - name: Login to ACR
-      run: |
-        echo "${{ secrets.ACR_CITYARK_PASSWORD }}" | docker login --username ${{ secrets.ACR_CITYARK_USERNAME }} --password-stdin ${{ env.REGISTRY }}
+      uses: docker/login-action@v3
+      with:
+        registry: ${{ env.REGISTRY }}
+        username: ${{ secrets.ACR_CITYARK_USERNAME }}
+        password: ${{ secrets.ACR_CITYARK_PASSWORD }}
 
     
     - name: Set up QEMU
