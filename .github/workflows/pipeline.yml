@@ -15,6 +15,8 @@ on:
     branches: [ "main" ]
     
 env:
+  REGION: cn-shanghai
+  ACK_CLUSTER_ID: c0c6fd35f298c43e190d24bac3f7eed2a
   REGISTRY: ${{ vars.ACR_CITYARK_REGISTRY }}
   NAMESPACE: cityark
   APP_NAME: demo
@@ -57,3 +59,23 @@ jobs:
         tags: ${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.APP_NAME }}:latest
         cache-from: type=gha
         cache-to: type=gha,mode=max
+
+    - name: Configure Alibaba Cloud Credentials
+      uses: aliyun/configure-cli-credentials@v1
+      with:
+        access-key-id: ${{ secrets.ALIYUN_CITYARK_ACCESS_KEY }}
+        access-key-secret: ${{ secrets.ALIYUN_CITYARK_ACCESS_SECRET }}
+        region-id: ${{ env.REGION }}
+
+    - name: Get ACK Cluster Credentials
+      run: |
+        aliyun cs GET /k8s/${{ env.ACK_CLUSTER_ID }}/user_config | jq -r .config > kubeconfig.yaml
+        export KUBECONFIG=kubeconfig.yaml
+
+    - name: Deploy to ACK
+      run: |
+        # Create namespace if not exists
+        kubectl create namespace ${{ env.NAMESPACE }} --dry-run=client -o yaml | kubectl apply -f -
+        
+        # Replace variables in template and apply
+        envsubst < k8s/template.yaml | kubectl apply -f -
