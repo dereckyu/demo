@@ -65,12 +65,12 @@ jobs:
       uses: azure/setup-kubectl@v3
       with:
         version: 'latest'
-        client-version: 'latest'
 
     - name: Set kubeconfig
       run: |
         mkdir -p ~/.kube
         echo "${{ env.ACK_KUBE_CONFIG }}" > ~/.kube/config
+        cat ~/.kube/config
 
     - name: View ACK
       run: |
