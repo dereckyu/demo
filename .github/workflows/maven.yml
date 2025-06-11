@@ -15,9 +15,8 @@ on:
     branches: [ "main" ]
     
 env:
-  REGION: cn-shanghai
-  REGISTRY: registry.$REGION.aliyuncs.com
-  NAMESPACE: dereckyu
+  REGISTRY: ${{ secrets.ACR_CITYARK_REGISTRY }}
+  NAMESPACE: cityark
   APP_NAME: demo
 
 
@@ -39,7 +38,7 @@ jobs:
     
     - name: Login to ACR
       run: |
-        echo "${{ secrets.ALIYUN_PASSWORD }}" | docker login --username ${{ secrets.ALIYUN_USERNAME }} --password-stdin registry.cn-shanghai.aliyuncs.com
+        echo "${{ secrets.ACR_CITYARK_PASSWORD }}" | docker login --username ${{ secrets.ACR_CITYARK_USERNAME }} --password-stdin ${{ env.REGISTRY }}
 
     
     - name: Set up QEMU
@@ -52,6 +51,6 @@ jobs:
         context: .
         push: true
         platforms: linux/arm64
-        tags: registry.cn-shanghai.aliyuncs.com/${{ env.NAMESPACE }}/${{ env.APP_NAME }}:latest
+        tags: ${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.APP_NAME }}:latest
         cache-from: type=gha
         cache-to: type=gha,mode=max
