@@ -15,7 +15,7 @@ on:
     branches: [ "main" ]
     
 env:
-  REGISTRY: ${{ secrets.ACR_CITYARK_REGISTRY }}
+  REGISTRY: ${{ vars.ACR_CITYARK_REGISTRY }}
   NAMESPACE: cityark
   APP_NAME: demo
 
