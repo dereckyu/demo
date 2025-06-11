@@ -92,8 +92,4 @@ jobs:
 
     - name: Deploy to ACK
       run: |
-        # Create namespace if not exists
-        kubectl create namespace ${{ env.NAMESPACE }} --dry-run=client -o yaml | kubectl apply -f -
-        
-        # Replace variables in template and apply
         envsubst < k8s/template.yaml | kubectl apply -f -
