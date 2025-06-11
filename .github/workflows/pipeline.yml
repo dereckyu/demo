@@ -60,8 +60,8 @@ jobs:
         cache-from: type=gha
         cache-to: type=gha,mode=max
 
-    - name: Configure Alibaba Cloud Credentials
-      uses: aliyun/configure-cli-credentials@v1
+    - name: Configure CLI Credentials
+      uses: aliyun/configure-cli-credentials@v2
       with:
         access-key-id: ${{ secrets.ALIYUN_CITYARK_ACCESS_KEY }}
         access-key-secret: ${{ secrets.ALIYUN_CITYARK_ACCESS_SECRET }}
